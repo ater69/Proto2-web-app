@@ -9,10 +9,13 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="Script.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styleKarta.css">
 </head>
 
 <body>
+  <!-- Tillbaka-knapp -->
+  <a href="index.html" class="btn btn-primary" id="backButton">Tillbaka</a>
+
   <div id="map"></div>
   <script>
     // Initialisera kartan
@@ -30,9 +33,9 @@
     var marker = L.marker([59.53, 18.074]).addTo(map);
 
     // Koppla en popup till markern
-    marker.bindPopup('<button type="button" class="btn btn-primary" id="saveButton">Välj bänk</button>')
 
-    // Popup öppnas bara vid klick
+    marker.bindPopup('<button onclick="location.href=\'latar.html\'" class="btn btn-primary">Välj bänk</button>')
+
     marker.on('click', function () {
       marker.openPopup();
     });

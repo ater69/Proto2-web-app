@@ -1,0 +1,106 @@
+/* Main Page Styles */
+body {
+    background-image: url('backgrund.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Content Box Styles */
+.content-box {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    padding: 3rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 650px;
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* Custom Button Styles */
+.btn-custom {
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-custom:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+}
+
+.btn-custom::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+}
+
+.btn-custom:hover::after {
+    transform: translateX(0);
+}
+
+/* Animation Effects */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-box {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .content-box {
+        padding: 2rem;
+        border-radius: 14px;
+    }
+
+    h1.display-4 {
+        font-size: 2.4rem;
+    }
+
+    .btn-custom {
+        padding: 0.75rem 1.75rem;
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .content-box {
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    h1.display-4 {
+        font-size: 2rem;
+    }
+
+    p.lead {
+        font-size: 1.05rem;
+    }
+
+    .btn-custom {
+        width: 100%;
+    }
+}

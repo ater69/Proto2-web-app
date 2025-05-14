@@ -1,0 +1,46 @@
+body {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.song-item {
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.song-item.playing {
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+
+h1 {
+    color: #000000;
+    text-align: center;
+    margin-bottom: 30px !important;
+}
+
+.btn-primary {
+    background-color: #22c079;
+    border-color: #22c079;
+}
+
+.btn-primary:hover {
+    background-color: #167a4d;
+    border-color: #167a4d;
+}
+
+.btn-warning {
+    background-color: #ff0707;
+    border-color: #ff0707;
+}
+
+.btn-warning:hover {
+    background-color: #7c0404;
+    border-color: #7c0404;
+}
+
+/* Stil för Tillbaka-knappen */
+.btn-secondary {
+    margin-bottom: 20px;
+}
