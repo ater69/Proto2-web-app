@@ -1,106 +1,46 @@
-// Songs for xylophone (notes correspond to xylophone keys)
-const songs = {
-    1: { // Twinkle Twinkle Little Star
-        name: "Twinkle Twinkle Little Star",
-        notes: ["C", "C", "G", "G", "A", "A", "G", "F", "F", "E", "E", "D", "D", "C"],
-        durations: [500, 500, 500, 500, 500, 500, 1000, 500, 500, 500, 500, 500, 500, 1000]
-    },
-    2: { // Ode to Joy
-        name: "Ode to Joy",
-        notes: ["E", "E", "F", "G", "G", "F", "E", "D", "C", "C", "D", "E", "E", "D", "D"],
-        durations: [500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 750, 500, 1000]
-    },
-    3: { // Happy Birthday
-        name: "Happy Birthday",
-        notes: ["C", "C", "D", "C", "F", "E", "C", "C", "D", "C", "G", "F", "C", "C", "C", "A", "F", "E", "D", "A#", "A#", "A", "F", "G", "F"],
-        durations: [300, 300, 600, 600, 600, 1200, 300, 300, 600, 600, 600, 1200, 300, 300, 600, 600, 600, 600, 600, 300, 300, 600, 600, 600, 1200]
-    }
-};
+let port;
+let writer;
 
-let isPlaying = false;
-let currentSong = null;
-let currentSongId = null;
-
-function playSong(songNumber) {
-    if (isPlaying && currentSongId === songNumber) {
-        stopPlayback();
-        return;
-    } else if (isPlaying) {
-        stopPlayback();
+// Funktion för att ansluta till Arduino (endast om den inte redan är ansluten)
+async function connectArduino() {
+    if (port) {
+        console.log("Port redan ansluten.");
+        return;  // Om porten redan är ansluten, gör inget
     }
 
-    currentSong = songs[songNumber];
-    currentSongId = songNumber;
-    isPlaying = true;
-
-    // Uppdatera gränssnittet
-    document.getElementById('statusMessage').textContent =
-        `Spelar: ${currentSong.name}`;
-
-    // Markera aktiv låt
-    document.getElementById(`song${songNumber}`).classList.add('playing');
-    const btn = document.getElementById(`btn${songNumber}`);
-    btn.textContent = 'Avbryt';
-    btn.classList.remove('btn-primary');
-    btn.classList.add('btn-warning');
-
-    // Simulate playing each note
-    playNotes(0);
+    try {
+        port = await navigator.serial.requestPort();  // Begär att användaren väljer port
+        await port.open({ baudRate: 9600 });  // Öppna porten
+        writer = port.writable.getWriter();  // Spara skrivaren
+        console.log("Ansluten till Arduino!");
+        document.getElementById('statusMessage').innerText = "Ansluten till Arduino";
+    } catch (err) {
+        console.error("Det gick inte att ansluta till Arduino:", err);
+        document.getElementById('statusMessage').innerText = "Fel vid anslutning till Arduino.";
+    }
 }
 
-function playNotes(index) {
-    if (!isPlaying || index >= currentSong.notes.length) {
-        stopPlayback();
-        return;
+// Funktion för att spela upp låt
+async function playSong(song) {
+    if (!writer) {
+        await connectArduino();  // Om porten inte är öppen, försök ansluta
     }
 
-    const note = currentSong.notes[index];
-    const duration = currentSong.durations[index];
-
-    // Send command to Arduino (simulated)
-    sendToArduino(`PLAY:${note}`);
-
-    setTimeout(() => {
-        // Play next note after a short pause
-        setTimeout(() => {
-            playNotes(index + 1);
-        }, 100);
-    }, duration - 100);
+    if (song === 'twinkle') {
+        await writer.write(new TextEncoder().encode('1'));  // Spela låt
+        document.getElementById('statusMessage').innerText = "Spelar: Blinka Lilla Stjärna";
+    }
 }
 
-function stopPlayback() {
-    if (!isPlaying) return;
-
-    isPlaying = false;
-
-    // Återställ gränssnittet
-    if (currentSongId) {
-        document.getElementById(`song${currentSongId}`).classList.remove('playing');
-        const btn = document.getElementById(`btn${currentSongId}`);
-        btn.textContent = 'Spela låt';
-        btn.classList.remove('btn-warning');
-        btn.classList.add('btn-primary');
+// Funktion för att stoppa uppspelning
+async function stopPlayback() {
+    if (writer) {
+        await writer.write(new TextEncoder().encode('0'));  // Skicka stoppkommandot
+        document.getElementById('statusMessage').innerText = "Uppspelning stoppad.";
     }
-
-    document.getElementById('statusMessage').textContent =
-        "Uppspelning stoppad. Välj en låt att spela.";
-
-    sendToArduino("STOP");
-
-    currentSong = null;
-    currentSongId = null;
 }
 
-function sendToArduino(command) {
-    // This is where you would communicate with the Arduino
-    console.log("Skickar till Arduino:", command);
-
-    /* Actual Web Serial API code might look like:
-    if (port && port.writable) {
-        const writer = port.writable.getWriter();
-        const encoder = new TextEncoder();
-        writer.write(encoder.encode(command + '\n'));
-        writer.release();
-    }
-    */
+// Lägg till en knapp för att manuellt parkoppla
+async function manualPairing() {
+    await connectArduino();  // Tryck på knappen för att manuellt ansluta till Arduino
 }
