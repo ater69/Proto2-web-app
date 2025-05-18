@@ -8,6 +8,8 @@ int LED_A = 11;
 int LED_B = 12;
 int LED_C2 = 5;
 
+int knobPin = A3; // Potentiometer för att justera delay
+int baseDelay = 300;
 bool isPlaying = false;
 
 void setup() {
@@ -22,6 +24,13 @@ void setup() {
     pinMode(LED_A, OUTPUT);
     pinMode(LED_B, OUTPUT);
     pinMode(LED_C2, OUTPUT);
+
+    pinMode(knobPin, INPUT);
+}
+
+int getDynamicDelay() {
+    int knobValue = analogRead(knobPin);
+    return map(knobValue, 0, 1023, 100, 600); // Justerar delay mellan 100ms och 600ms
 }
 
 void blinkalillastjarna() {
@@ -35,71 +44,23 @@ void blinkalillastjarna() {
     isPlaying = false;
 }
 
-void C_note() {
-    delay(300);
-    digitalWrite(LED_CR, HIGH);   
-    digitalWrite(LED_CB, HIGH);
-    delay(300);
-    digitalWrite(LED_CR, LOW);
-    digitalWrite(LED_CB, LOW);
-    delay(10);  // Kort delay för att hantera serialkommunikationen
+void playNote(int ledPin) {
+    int delayTime = getDynamicDelay();
+    delay(delayTime);
+    digitalWrite(ledPin, HIGH);
+    delay(delayTime);
+    digitalWrite(ledPin, LOW);
+    delay(10);  
 }
 
-void D_note() {
-    delay(300);
-    digitalWrite(LED_D, HIGH);
-    delay(300);
-    digitalWrite(LED_D, LOW);
-    delay(10);  // Kort delay för att hantera serialkommunikationen
-}
-
-void E_note() {
-    delay(300);
-    digitalWrite(LED_E, HIGH);
-    delay(300);
-    digitalWrite(LED_E, LOW);
-    delay(10);
-}
-
-void F_note() {
-    delay(300);
-    digitalWrite(LED_F, HIGH);
-    delay(300);
-    digitalWrite(LED_F, LOW);
-    delay(10);
-}
-
-void G_note() {
-    delay(300);
-    digitalWrite(LED_G, HIGH);
-    delay(300);
-    digitalWrite(LED_G, LOW);
-    delay(10);
-}
-
-void A_note() {
-    delay(300);
-    digitalWrite(LED_A, HIGH);
-    delay(300);
-    digitalWrite(LED_A, LOW);
-    delay(10);
-}
-
-void B_note() {
-    delay(300);
-    digitalWrite(LED_B, HIGH);
-    delay(300);
-    digitalWrite(LED_B, LOW);
-    delay(10);
-}
-
-void C2_note() {
-    delay(300);
-    digitalWrite(LED_C2, HIGH);
-    delay(300);
-    digitalWrite(LED_C2, LOW);
-    delay(10);
-}
+void C_note() { playNote(LED_CR); playNote(LED_CB); }
+void D_note() { playNote(LED_D); }
+void E_note() { playNote(LED_E); }
+void F_note() { playNote(LED_F); }
+void G_note() { playNote(LED_G); }
+void A_note() { playNote(LED_A); }
+void B_note() { playNote(LED_B); }
+void C2_note() { playNote(LED_C2); }
 
 void stopSong() {
     isPlaying = false;
@@ -117,7 +78,7 @@ void stopSong() {
 void loop() {
     if (Serial.available() > 0) {
         char command = Serial.read();
-        Serial.print("Mottaget kommando: "); // För att skriva ut det mottagna kommandot
+        Serial.print("Mottaget kommando: ");
         Serial.println(command);
         if (command == '1' && !isPlaying) {
             blinkalillastjarna();
