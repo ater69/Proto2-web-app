@@ -32,15 +32,3 @@ async function playSong(song) {
     }
 }
 
-// Funktion för att stoppa uppspelning
-async function stopPlayback() {
-    if (writer) {
-        await writer.write(new TextEncoder().encode('0'));  // Skicka stoppkommandot
-        document.getElementById('statusMessage').innerText = "Uppspelning stoppad.";
-    }
-}
-
-// Lägg till en knapp för att manuellt parkoppla
-async function manualPairing() {
-    await connectArduino();  // Tryck på knappen för att manuellt ansluta till Arduino
-}

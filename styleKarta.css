@@ -1,23 +1,33 @@
-/* Back button styling */
-#backButton {
+.btn-back {
+    z-index: 1000;
     position: absolute;
     top: 20px;
     right: 20px;
-    z-index: 1000;
-    padding: 10px 20px;
-    font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    border: 2px solid #fff;
+
 }
 
-#backButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    background-color: #0b5ed7;
+.btn {
+    border: none;
 }
 
-/* Map container styling */
+.btn-secondary {
+    margin-bottom: 20px;
+    background-color: #888B8D;
+
+}
+
+.btn-secondary:hover {
+    background-color: #6b6e70;
+}
+
+.btn-primary {
+    background-color: #007FC8;
+}
+
+.btn-primary:hover {
+    background-color: #0067a3;
+}
+
 #map {
     position: absolute;
     top: 0;
@@ -26,29 +36,15 @@
     height: 100%;
 }
 
-/* Popup styling */
 .leaflet-popup-content {
     margin: 10px;
     text-align: center;
 }
 
 .leaflet-popup-content button {
-    margin-top: 5px;
+    white-space: nowrap;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    #backButton {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    #backButton {
-        padding: 6px 12px;
-        font-size: 12px;
-        top: 10px;
-        right: 10px;
-    }
+.leaflet-popup-close-button {
+    display: none;
 }
