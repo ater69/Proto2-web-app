@@ -20,16 +20,6 @@ h1 {
     margin-bottom: 30px !important;
 }
 
-.btn-primary {
-    background-color: #22c079;
-    border-color: #22c079;
-}
-
-.btn-primary:hover {
-    background-color: #167a4d;
-    border-color: #167a4d;
-}
-
 .btn-warning {
     background-color: #ff0707;
     border-color: #ff0707;

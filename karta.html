@@ -8,7 +8,7 @@
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="Script.js"></script>
+  
   <link rel="stylesheet" href="styleKarta.css">
 </head>
 
@@ -17,29 +17,7 @@
   <a href="index.html" class="btn btn-primary" id="backButton">Tillbaka</a>
 
   <div id="map"></div>
-  <script>
-    // Initialisera kartan
-    var map = L.map('map', {
-      minZoom: 10,
-      maxZoom: 18
-    }).setView([59.53, 18.074], 13);
-
-    // Lägg till tile layer
-    L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=574O0vWsBViNeScHREjJ', {
-      attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
-    }).addTo(map);
-
-    // Lägg till en marker
-    var marker = L.marker([59.53, 18.074]).addTo(map);
-
-    // Koppla en popup till markern
-
-    marker.bindPopup('<button onclick="location.href=\'latar.html\'" class="btn btn-primary">Välj bänk</button>')
-
-    marker.on('click', function () {
-      marker.openPopup();
-    });
-  </script>
+  
 </body>
-
+<script src="scriptKarta.js"></script>
 </html>
